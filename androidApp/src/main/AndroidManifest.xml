@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.example.myapplication.android.MyApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity

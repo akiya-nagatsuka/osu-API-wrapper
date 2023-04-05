@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import com.example.myapplication.chat.repository.remote.FakeChatApi
+import com.example.myapplication.auth.TokenProviderImpl
 
 class MainActivity2 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,7 @@ class MainActivity2 : ComponentActivity() {
             if (code != null) {
                 LaunchedEffect(true) {
                     text = try {
-                        FakeChatApi().getToken(code)
+                        TokenProviderImpl().apply { this.code = code }.getToken()
                     } catch (e: Exception) {
                         "Failed: ${e.message}"
                     }

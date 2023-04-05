@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TokenRequest(
+internal data class TokenRequest(
     @SerialName("client_id")
     val clientId: String = com.example.myapplication.clientId,
     @SerialName("client_secret")

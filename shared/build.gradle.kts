@@ -29,11 +29,13 @@ kotlin {
     }
     
     sourceSets {
+        val koinVersion = "3.4.0"
         val ktorVersion = "2.2.4"
         val napierVersion = "2.6.1"
 
         val commonMain by getting {
             dependencies {
+                implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
