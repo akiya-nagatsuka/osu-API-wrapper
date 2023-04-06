@@ -10,9 +10,18 @@ internal data class TokenRequest(
     @SerialName("client_secret")
     val clientSecret: String = com.example.myapplication.clientSecret,
     @SerialName("code")
-    val code: String,
+    val code: String? = null,
     @SerialName("grant_type")
-    val grantType: String = "authorization_code",
+    val grantType: String = GrantType.AuthorizationCode.code,
     @SerialName("redirect_uri")
-    val redirectUri: String = com.example.myapplication.redirectUrl,
+    val redirectUri: String? = com.example.myapplication.redirectUrl,
+    @SerialName("refresh_token")
+    val refreshToken: String? = null,
+    @SerialName("scope")
+    val scope: String? = null
 )
+
+enum class GrantType(val code: String) {
+    AuthorizationCode("authorization_code"),
+    RefreshToken("refresh_token"),
+}

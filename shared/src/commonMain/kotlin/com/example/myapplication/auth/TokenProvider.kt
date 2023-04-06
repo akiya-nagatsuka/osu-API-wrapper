@@ -33,7 +33,7 @@ class TokenProviderImpl : TokenProvider {
     override var code = ""
 
     override suspend fun authorise() {
-        webAuthenticate("https://osu.ppy.sh/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUrlFormatted&response_type=code")
+        webAuthenticate("https://osu.ppy.sh/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUrlFormatted&response_type=code&scope=chat.write")
     }
 
     override suspend fun getToken() = getToken(code)
