@@ -8,6 +8,6 @@ data class NewsSidebar(
     @SerialName("current_year")
     val currentYear: Int,
     @SerialName("news_posts")
-    val newsPosts: Int,
+    val newsPosts: List<NewsPost>,
     val years: List<Int>,
 )
