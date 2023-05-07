@@ -12,6 +12,9 @@ import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.TokenScope
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
 import com.github.nagatsukaakiya.osuapi.news.NewsApi
+import com.github.nagatsukaakiya.osuapi.ranking.RankingApi
+import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
+import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingType
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -25,6 +28,7 @@ class MainActivity2 : ComponentActivity() {
         val beatmapsApi: BeatmapsApi by inject()
         val tokenProvider: TokenProvider by inject()
         val newsApi: NewsApi by inject()
+        val rankingApi: RankingApi by inject()
 
         setContent {
             val coroutineScope = rememberCoroutineScope()
@@ -35,10 +39,9 @@ class MainActivity2 : ComponentActivity() {
                     text = "Loading..."
                     coroutineScope.launch {
                         text = try {
-//                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
-//                                beatmapsApi.lookup()
-//                            }
-                            newsApi.newsPost("2021-04-27-results-a-labour-of-love").toString()
+                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
+                                rankingApi.getRanking(GameMode.Standard, RankingType.Performance).toString()
+                            }
                         } catch (e: Exception) {
                             "Failed: ${e.cause}, ${e.message}"
                         }
