@@ -4,11 +4,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.example.myapplication.android.MyApplication"
+        android:name="com.github.nagatsukaakiya.osuapi.android.MyApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity2"
+            android:name="com.github.nagatsukaakiya.osuapi.android.MainActivity2"
             android:exported="true"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme">
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.github.nagatsukaakiya.osuapi.android.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

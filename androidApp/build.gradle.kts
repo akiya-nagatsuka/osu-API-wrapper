@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapplication.android"
+    namespace = "com.github.nagatsukaakiya.osuapi.android"
     compileSdk = 33
     defaultConfig {
-        applicationId = "com.example.myapplication.android"
+        applicationId = "com.github.nagatsukaakiya.osuapi.android"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -18,9 +18,9 @@ android {
         viewBinding = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -46,7 +46,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.0")
     implementation("androidx.compose.foundation:foundation:1.4.0")
     implementation("androidx.compose.material:material:1.4.0")
-    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.activity:activity-compose:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
