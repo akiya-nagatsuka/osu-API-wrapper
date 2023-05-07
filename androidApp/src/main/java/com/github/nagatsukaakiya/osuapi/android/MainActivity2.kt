@@ -11,6 +11,7 @@ import com.github.nagatsukaakiya.osuapi.auth.Token
 import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.TokenScope
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
+import com.github.nagatsukaakiya.osuapi.news.NewsApi
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -23,6 +24,7 @@ class MainActivity2 : ComponentActivity() {
         }
         val beatmapsApi: BeatmapsApi by inject()
         val tokenProvider: TokenProvider by inject()
+        val newsApi: NewsApi by inject()
 
         setContent {
             val coroutineScope = rememberCoroutineScope()
@@ -33,9 +35,10 @@ class MainActivity2 : ComponentActivity() {
                     text = "Loading..."
                     coroutineScope.launch {
                         text = try {
-                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
-                                beatmapsApi.lookup()
-                            }
+//                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
+//                                beatmapsApi.lookup()
+//                            }
+                            newsApi.newsList().toString()
                         } catch (e: Exception) {
                             "Failed: ${e.cause}, ${e.message}"
                         }
