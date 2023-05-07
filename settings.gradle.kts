@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "My_Application"
+rootProject.name = "osu! API Wrapper"
 include(":androidApp")
 include(":shared")
