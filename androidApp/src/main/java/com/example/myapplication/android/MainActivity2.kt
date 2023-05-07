@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import com.example.myapplication.auth.Token
 import com.example.myapplication.auth.TokenProvider
 import com.example.myapplication.auth.TokenProviderImpl
+import com.example.myapplication.beatmaps.BeatmapsApi
 import com.example.myapplication.chat.repository.ChatRepository
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -21,7 +23,8 @@ class MainActivity2 : ComponentActivity() {
             val tokenProvider: TokenProvider by inject()
             tokenProvider.code = it
         }
-        val chatRepository: ChatRepository by inject()
+        val beatmapsApi: BeatmapsApi by inject()
+        val tokenProvider: TokenProvider by inject()
 
         setContent {
             val coroutineScope = rememberCoroutineScope()
@@ -32,8 +35,16 @@ class MainActivity2 : ComponentActivity() {
                     text = "Loading..."
                     coroutineScope.launch {
                         text = try {
-                            val chat = chatRepository.newChat(3, "Hi!")
-                            chat.toString()
+                            val token = Token(tokenProvider.getToken())
+                            with(beatmapsApi) {
+//                                token.lookup()
+                            }
+//                            with(token) {
+//                                beatmapsApi.lookup()
+//                            }
+//                            val chat = beatmapsApi.lookup()
+//                            chat.toString()
+                            ""
                         } catch (e: Exception) {
                             "Failed: ${e.cause}, ${e.message}"
                         }

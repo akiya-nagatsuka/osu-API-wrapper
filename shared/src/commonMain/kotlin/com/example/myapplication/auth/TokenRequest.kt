@@ -18,10 +18,35 @@ internal data class TokenRequest(
     @SerialName("refresh_token")
     val refreshToken: String? = null,
     @SerialName("scope")
-    val scope: String? = null
+    val scope: TokenScope? = null
 )
 
 enum class GrantType(val code: String) {
     AuthorizationCode("authorization_code"),
     RefreshToken("refresh_token"),
+}
+
+@Serializable
+enum class TokenScope(val value: String) {
+
+    @SerialName("chat.write")
+    ChatWrite("chat.write"),
+
+    @SerialName("delegate")
+    Delegate("delegate"),
+
+    @SerialName("forum.write")
+    ForumWrite("forum.write"),
+
+    @SerialName("friends.read")
+    FriendsRead("friends.read"),
+
+    @SerialName("identity")
+    Identity("identity"),
+
+    @SerialName("public")
+    Public("public"),
+
+    @SerialName("lazer")
+    Lazer("lazer"),
 }

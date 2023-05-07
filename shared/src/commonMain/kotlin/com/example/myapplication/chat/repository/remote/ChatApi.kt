@@ -19,7 +19,7 @@ interface ChatApi {
     suspend fun getMessages(token: String): List<String>
 }
 
-class FakeChatImpl : ChatApi {
+internal class FakeChatImpl : ChatApi {
     private val client = HttpClient {
         install(ContentNegotiation) {
             json(Json(DefaultJson) { ignoreUnknownKeys = true })
