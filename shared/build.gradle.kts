@@ -6,11 +6,11 @@ plugins {
 }
 
 kotlin {
-//    sourceSets.all {
-//        languageSettings {
-//            languageVersion = "2.0"
-//        }
-//    }
+    sourceSets.all {
+        languageSettings {
+            languageVersion = "2.0"
+        }
+    }
 
     android {
         compilations.all {
