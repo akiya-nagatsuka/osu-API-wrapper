@@ -3,7 +3,9 @@
 package com.github.nagatsukaakiya.osuapi.news
 
 import com.github.nagatsukaakiya.osuapi.news.requests.NewsListRequest
+import com.github.nagatsukaakiya.osuapi.news.requests.NewsPostRequest
 import com.github.nagatsukaakiya.osuapi.news.responses.NewsListResponse
+import com.github.nagatsukaakiya.osuapi.news.responses.NewsPost
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -18,7 +20,7 @@ interface NewsApi {
         cursorString: String? = null
     ): NewsListResponse
 
-    suspend fun newsPost()
+    suspend fun newsPost(news: String, key: String? = null): NewsPost
 }
 
 internal class NewsApiImpl(private val client: HttpClient) : NewsApi {
@@ -36,7 +38,13 @@ internal class NewsApiImpl(private val client: HttpClient) : NewsApi {
         }.body()
     }
 
-    override suspend fun newsPost() {
-        TODO("Not yet implemented")
+    override suspend fun newsPost(news: String, key: String?): NewsPost {
+        return client.get("${Companion.news}/$news") {
+            headers {
+                append(HttpHeaders.Accept, "application/json")
+                append(HttpHeaders.ContentType, "application/json")
+            }
+            setBody(NewsPostRequest(news, key))
+        }.body()
     }
 }

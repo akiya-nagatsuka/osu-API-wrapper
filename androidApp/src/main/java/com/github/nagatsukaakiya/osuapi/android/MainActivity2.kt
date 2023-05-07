@@ -38,7 +38,7 @@ class MainActivity2 : ComponentActivity() {
 //                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
 //                                beatmapsApi.lookup()
 //                            }
-                            newsApi.newsList().toString()
+                            newsApi.newsPost("2021-04-27-results-a-labour-of-love").toString()
                         } catch (e: Exception) {
                             "Failed: ${e.cause}, ${e.message}"
                         }
