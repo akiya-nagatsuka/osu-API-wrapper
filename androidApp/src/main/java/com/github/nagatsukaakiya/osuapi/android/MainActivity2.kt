@@ -33,7 +33,7 @@ class MainActivity2 : ComponentActivity() {
                     text = "Loading..."
                     coroutineScope.launch {
                         text = try {
-                            with(Token(tokenProvider.getToken(TokenScope.Public))) {
+                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
                                 beatmapsApi.lookup()
                             }
                         } catch (e: Exception) {

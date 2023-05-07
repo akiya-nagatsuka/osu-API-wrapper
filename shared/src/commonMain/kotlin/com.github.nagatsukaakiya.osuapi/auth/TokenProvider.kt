@@ -1,6 +1,7 @@
 package com.github.nagatsukaakiya.osuapi.auth
 
 import com.github.nagatsukaakiya.osuapi.clientId
+import com.github.nagatsukaakiya.osuapi.redirectUrl
 import com.github.nagatsukaakiya.osuapi.redirectUrlFormatted
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -11,8 +12,9 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 
 interface TokenProvider {
-    suspend fun getToken(tokenScope: TokenScope? = null): String
-    suspend fun getToken(code: String, tokenScope: TokenScope? = null): String
+    suspend fun getTokenByCode(): String
+
+    suspend fun getTokenByRefresh(tokenScope: TokenScope? = null): String
     suspend fun authorise()
     var code: String
 }
@@ -30,25 +32,42 @@ class TokenProviderImpl : TokenProvider {
 
     override var code = ""
 
+    private var refreshToken: String = ""
+
     override suspend fun authorise() {
-        webAuthenticate("https://osu.ppy.sh/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUrlFormatted&response_type=code&scope=chat.write")
+        webAuthenticate("https://osu.ppy.sh/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUrlFormatted&response_type=code&scope=chat.write+public")
     }
 
-    override suspend fun getToken(tokenScope: TokenScope?) = getToken(code, tokenScope)
+    override suspend fun getTokenByCode() = getToken(GrantType.AuthorizationCode, code)
 
-    override suspend fun getToken(code: String, tokenScope: TokenScope?): String {
-        if (code.isEmpty()) {
-            authorise()
-            return ""
+    override suspend fun getTokenByRefresh(tokenScope: TokenScope?) = getToken(GrantType.RefreshToken, null, tokenScope)
+
+    private suspend fun getToken(type: GrantType, code: String? = null, tokenScope: TokenScope? = null): String {
+        if (type == GrantType.AuthorizationCode && code.isNullOrEmpty()) {
+            error("No code")
+        }
+        if (type == GrantType.RefreshToken && code != null) {
+            error("Requesting by refresh token and code")
+        }
+        if (type == GrantType.RefreshToken && refreshToken.isEmpty()) {
+            getTokenByCode()
         }
         val response: HttpResponse = client.post(tokenEndpoint) {
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
             }
-            setBody(TokenRequest(code = code, scope = tokenScope))
+            when (type) {
+                GrantType.AuthorizationCode -> {
+                    setBody(TokenRequest(grantType = type, code = code, redirectUri = redirectUrl))
+                }
+                GrantType.RefreshToken -> {
+                    setBody(TokenRequest(grantType = type, scope = tokenScope, refreshToken = refreshToken))
+                }
+            }
         }
         val tokenResponse: TokenResponse = response.body()
+        tokenResponse.refreshToken?.let { refreshToken = it }
         return tokenResponse.accessToken
     }
 }

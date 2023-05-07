@@ -13,11 +13,11 @@ internal class ChatRemoteDataProviderImpl(
     private val chatApi: ChatApi,
 ): ChatRemoteDataProvider {
     override suspend fun newChat(userId: Int, message: String): NewChatResponse {
-        val token = tokenProvider.getToken()
+        val token = tokenProvider.getTokenByCode()
         return chatApi.newChat(token, userId, message)
     }
     override suspend fun fetchMessages(): List<String> {
-        val token = tokenProvider.getToken()
+        val token = tokenProvider.getTokenByCode()
         return chatApi.getMessages(token)
     }
 }
