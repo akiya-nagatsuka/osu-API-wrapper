@@ -32,16 +32,9 @@ class MainActivity2 : ComponentActivity() {
                     text = "Loading..."
                     coroutineScope.launch {
                         text = try {
-                            val token = Token(tokenProvider.getToken())
-                            with(beatmapsApi) {
-//                                token.lookup()
+                            with(Token(tokenProvider.getToken())) {
+                                beatmapsApi.lookup()
                             }
-//                            with(token) {
-//                                beatmapsApi.lookup()
-//                            }
-//                            val chat = beatmapsApi.lookup()
-//                            chat.toString()
-                            ""
                         } catch (e: Exception) {
                             "Failed: ${e.cause}, ${e.message}"
                         }

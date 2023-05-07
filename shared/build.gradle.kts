@@ -86,7 +86,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.github.nagatsukaakiya.osuapi"
     compileSdk = 33
     defaultConfig {
         minSdk = 24
