@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import com.github.nagatsukaakiya.osuapi.auth.Token
 import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
+import com.github.nagatsukaakiya.osuapi.auth.TokenScope
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -32,7 +33,7 @@ class MainActivity2 : ComponentActivity() {
                     text = "Loading..."
                     coroutineScope.launch {
                         text = try {
-                            with(Token(tokenProvider.getToken())) {
+                            with(Token(tokenProvider.getToken(TokenScope.Public))) {
                                 beatmapsApi.lookup()
                             }
                         } catch (e: Exception) {

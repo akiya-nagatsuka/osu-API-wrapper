@@ -11,13 +11,11 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 
 interface TokenProvider {
-    suspend fun getToken(): String
-    suspend fun getToken(code: String): String
+    suspend fun getToken(tokenScope: TokenScope? = null): String
+    suspend fun getToken(code: String, tokenScope: TokenScope? = null): String
     suspend fun authorise()
     var code: String
 }
-
-expect fun webAuthenticate(url: String)
 
 class TokenProviderImpl : TokenProvider {
     companion object {
@@ -36,9 +34,9 @@ class TokenProviderImpl : TokenProvider {
         webAuthenticate("https://osu.ppy.sh/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUrlFormatted&response_type=code&scope=chat.write")
     }
 
-    override suspend fun getToken() = getToken(code)
+    override suspend fun getToken(tokenScope: TokenScope?) = getToken(code, tokenScope)
 
-    override suspend fun getToken(code: String): String {
+    override suspend fun getToken(code: String, tokenScope: TokenScope?): String {
         if (code.isEmpty()) {
             authorise()
             return ""
@@ -48,7 +46,7 @@ class TokenProviderImpl : TokenProvider {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
             }
-            setBody(TokenRequest(code = code))
+            setBody(TokenRequest(code = code, scope = tokenScope))
         }
         val tokenResponse: TokenResponse = response.body()
         return tokenResponse.accessToken
