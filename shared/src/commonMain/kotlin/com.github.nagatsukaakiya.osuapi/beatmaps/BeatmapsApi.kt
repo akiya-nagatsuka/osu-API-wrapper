@@ -3,6 +3,7 @@
 package com.github.nagatsukaakiya.osuapi.beatmaps
 
 import com.github.nagatsukaakiya.osuapi.auth.Token
+import com.github.nagatsukaakiya.osuapi.beatmaps.requests.Lookup
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
@@ -34,7 +35,7 @@ interface BeatmapsApi {
 
     /** Gets beatmap data for the specified beatmap ID. */
     context(Token)
-    suspend fun getBeatmap(beatmap: Int)
+    suspend fun getBeatmap(beatmap: Int): String
 
     /** Returns difficulty attributes of beatmap with specific mode and mods combination. */
     context(Token)
@@ -56,7 +57,7 @@ internal class BeatmapsImpl(private val client: HttpClient) : BeatmapsApi {
                 @Suppress("UNRESOLVED_REFERENCE")
                 bearerAuth(value)
             }
-            setBody("")
+            setBody(Lookup(checksum, filename, id))
         }.also {
             println(it.status)
             println(it.body() as String)
@@ -130,8 +131,8 @@ internal class BeatmapsImpl(private val client: HttpClient) : BeatmapsApi {
     }
 
     context(Token)
-    override suspend fun getBeatmap(beatmap: Int) {
-        client.get("$beatmaps/$beatmap") {
+    override suspend fun getBeatmap(beatmap: Int): String {
+        return client.get("$beatmaps/$beatmap") {
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
