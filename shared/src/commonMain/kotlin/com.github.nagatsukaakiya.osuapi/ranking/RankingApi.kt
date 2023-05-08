@@ -1,5 +1,3 @@
-@file:Suppress("UNSUPPORTED_FEATURE")
-
 package com.github.nagatsukaakiya.osuapi.ranking
 
 import com.github.nagatsukaakiya.osuapi.auth.Token
@@ -16,8 +14,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.HttpHeaders
 
 interface RankingApi {
-    context(Token)
-    suspend fun getRanking(mode: GameMode, type: RankingType): Rankings
+    suspend fun getRanking(token: Token, mode: GameMode, type: RankingType): Rankings
 }
 
 internal class RankingApiImpl(private val client: HttpClient) : RankingApi {
@@ -25,14 +22,12 @@ internal class RankingApiImpl(private val client: HttpClient) : RankingApi {
         private const val rankings = "https://osu.ppy.sh/api/v2/rankings"
     }
 
-    context(Token)
-    override suspend fun getRanking(mode: GameMode, type: RankingType): Rankings {
+    override suspend fun getRanking(token: Token, mode: GameMode, type: RankingType): Rankings {
         return client.get("$rankings/${mode.getValue()}/${type.getValue()}") {
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
-                @Suppress("UNRESOLVED_REFERENCE")
-                bearerAuth(value)
+                bearerAuth(token.value)
             }
             setBody(RankingsRequest(mode, type))
         }.body()
