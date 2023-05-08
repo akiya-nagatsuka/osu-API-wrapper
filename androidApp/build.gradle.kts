@@ -36,7 +36,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
-        freeCompilerArgs = listOf("-Xskip-prerelease-check", "-Xcontext-receivers")
+        freeCompilerArgs = listOf("-Xskip-prerelease-check")
     }
 }
 

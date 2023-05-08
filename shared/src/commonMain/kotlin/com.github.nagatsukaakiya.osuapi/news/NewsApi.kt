@@ -1,5 +1,3 @@
-@file:Suppress("UNSUPPORTED_FEATURE")
-
 package com.github.nagatsukaakiya.osuapi.news
 
 import com.github.nagatsukaakiya.osuapi.news.requests.NewsListRequest
