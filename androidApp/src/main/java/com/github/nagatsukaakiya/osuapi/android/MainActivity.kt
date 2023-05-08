@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     coroutineScope.launch {
                         text = try {
                             with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
-                                rankingApi.getRanking(GameMode.Standard, RankingType.Performance).toString()
+                                rankingApi.getRanking(this, GameMode.Standard, RankingType.Performance).toString()
                             }
                         } catch (e: Exception) {
                             "Failed: ${e.cause}, ${e.message}"
