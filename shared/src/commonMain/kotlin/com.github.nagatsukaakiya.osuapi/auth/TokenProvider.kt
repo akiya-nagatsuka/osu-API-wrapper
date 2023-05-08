@@ -52,9 +52,11 @@ internal class TokenProviderImpl(private val localProvider: TokenLocalProvider) 
         if (type == GrantType.RefreshToken && code != null) {
             error("Requesting by refresh token and code")
         }
-        val refreshToken = localProvider.getRefreshToken()
-        if (type == GrantType.RefreshToken && refreshToken.isNullOrEmpty()) {
-            getTokenByCode()
+        val refreshToken = localProvider.getRefreshToken().let {
+            if (type == GrantType.RefreshToken && it == null) {
+                getTokenByCode()
+                localProvider.getRefreshToken()
+            } else it
         }
         val response: HttpResponse = client.post(tokenEndpoint) {
             headers {
