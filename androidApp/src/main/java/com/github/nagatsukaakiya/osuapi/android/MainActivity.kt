@@ -3,48 +3,54 @@ package com.github.nagatsukaakiya.osuapi.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.github.nagatsukaakiya.osuapi.Greeting
-import com.github.nagatsukaakiya.osuapi.auth.activityCt
+import com.github.nagatsukaakiya.osuapi.auth.Token
+import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
+import com.github.nagatsukaakiya.osuapi.auth.TokenScope
+import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
+import com.github.nagatsukaakiya.osuapi.news.NewsApi
+import com.github.nagatsukaakiya.osuapi.ranking.RankingApi
+import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
+import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingType
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityCt = this
+        intent?.data?.getQueryParameter("code")?.let {
+            val tokenProvider: TokenProvider by inject()
+            tokenProvider.setCode(it)
+        }
+        val beatmapsApi: BeatmapsApi by inject()
+        val tokenProvider: TokenProvider by inject()
+        val newsApi: NewsApi by inject()
+        val rankingApi: RankingApi by inject()
+
         setContent {
-            MyApplicationTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    val text by remember { mutableStateOf("Loading") }
-                    LaunchedEffect(true) {
-                        try {
-                            Greeting().greeting()
+            val coroutineScope = rememberCoroutineScope()
+            var text by remember { mutableStateOf("") }
+
+            Column {
+                Button(onClick = {
+                    text = "Loading..."
+                    coroutineScope.launch {
+                        text = try {
+                            with(Token(tokenProvider.getTokenByRefresh(TokenScope.Public))) {
+                                rankingApi.getRanking(GameMode.Standard, RankingType.Performance).toString()
+                            }
                         } catch (e: Exception) {
-                            e.localizedMessage ?: "error"
+                            "Failed: ${e.cause}, ${e.message}"
                         }
                     }
-                    GreetingView(text)
+                }) {
+                    Text("Send message")
                 }
+                Text(text)
             }
         }
-    }
-}
-
-@Composable
-fun GreetingView(text: String) {
-    Text(text = text)
-}
-
-@Preview
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        GreetingView("Hello, Android!")
     }
 }

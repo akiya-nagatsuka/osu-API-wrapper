@@ -1,5 +1,6 @@
 package com.github.nagatsukaakiya.osuapi
 
+import com.github.nagatsukaakiya.osuapi.auth.TokenLocalProvider
 import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.TokenProviderImpl
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
@@ -21,7 +22,8 @@ fun appModule() = listOf(platformModule)
 
 val platformModule = module {
     single { createHttpClient() }
-    single<TokenProvider> { TokenProviderImpl() }
+    single { TokenLocalProvider() }
+    single<TokenProvider> { TokenProviderImpl(get()) }
     single<BeatmapsApi> { BeatmapsImpl(get()) }
     single<RankingApi> { RankingApiImpl(get()) }
     single<NewsApi> { NewsApiImpl(get()) }

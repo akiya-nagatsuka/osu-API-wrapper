@@ -12,14 +12,15 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 
 interface TokenProvider {
+    val isAuthenticated: Boolean
+    suspend fun authorise(isForce: Boolean = false)
+    fun setCode(code: String)
     suspend fun getTokenByCode(): String
 
     suspend fun getTokenByRefresh(tokenScope: TokenScope? = null): String
-    suspend fun authorise()
-    var code: String
 }
 
-class TokenProviderImpl : TokenProvider {
+internal class TokenProviderImpl(private val localProvider: TokenLocalProvider) : TokenProvider {
     companion object {
         private const val tokenEndpoint = "https://osu.ppy.sh/oauth/token"
     }
@@ -30,15 +31,17 @@ class TokenProviderImpl : TokenProvider {
         }
     }
 
-    override var code = ""
+    override val isAuthenticated: Boolean
+        get() = localProvider.getRefreshToken() != null
 
-    private var refreshToken: String = ""
-
-    override suspend fun authorise() {
+    override suspend fun authorise(isForce: Boolean) {
+        if (!isForce && localProvider.getCode() != null) return
         webAuthenticate("https://osu.ppy.sh/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUrlFormatted&response_type=code&scope=chat.write+public")
     }
 
-    override suspend fun getTokenByCode() = getToken(GrantType.AuthorizationCode, code)
+    override fun setCode(code: String) = localProvider.putCode(code)
+
+    override suspend fun getTokenByCode() = getToken(GrantType.AuthorizationCode, localProvider.getCode())
 
     override suspend fun getTokenByRefresh(tokenScope: TokenScope?) = getToken(GrantType.RefreshToken, null, tokenScope)
 
@@ -49,7 +52,8 @@ class TokenProviderImpl : TokenProvider {
         if (type == GrantType.RefreshToken && code != null) {
             error("Requesting by refresh token and code")
         }
-        if (type == GrantType.RefreshToken && refreshToken.isEmpty()) {
+        val refreshToken = localProvider.getRefreshToken()
+        if (type == GrantType.RefreshToken && refreshToken.isNullOrEmpty()) {
             getTokenByCode()
         }
         val response: HttpResponse = client.post(tokenEndpoint) {
@@ -67,7 +71,9 @@ class TokenProviderImpl : TokenProvider {
             }
         }
         val tokenResponse: TokenResponse = response.body()
-        tokenResponse.refreshToken?.let { refreshToken = it }
+        tokenResponse.refreshToken?.let {
+            localProvider.putRefreshToken(it)
+        }
         return tokenResponse.accessToken
     }
 }

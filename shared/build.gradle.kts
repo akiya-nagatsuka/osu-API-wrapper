@@ -47,6 +47,7 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("io.github.reactivecircus.cache4k:cache4k:0.11.0")
                 implementation("io.github.aakira:napier:$napierVersion")
             }
         }
