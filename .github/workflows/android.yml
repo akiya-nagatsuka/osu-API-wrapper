@@ -1,5 +1,10 @@
 name: Android CI
 
+env:
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  REDIRECT_URL: ${{ secrets.REDIRECT_URL }}
+
 on:
   push:
     branches: [ "master" ]
