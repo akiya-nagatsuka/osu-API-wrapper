@@ -13,6 +13,7 @@ import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.activityCt
 import com.github.nagatsukaakiya.osuapi.clientId
 import com.github.nagatsukaakiya.osuapi.clientSecret
+import com.github.nagatsukaakiya.osuapi.redirectUrl
 import com.github.nagatsukaakiya.osuapi.redirectUrlFormatted
 import org.koin.android.ext.android.inject
 
@@ -36,7 +37,7 @@ class LaunchActivity : ComponentActivity() {
                                     Intent(this@LaunchActivity, MainActivity::class.java)
                                 )
                             } else {
-                                tokenProvider.setCredentials(clientId, clientSecret)
+                                tokenProvider.setCredentials(clientId, clientSecret, redirectUrl)
                                 tokenProvider.authorise(redirectUrlFormatted)
                             }
                             "Success"
