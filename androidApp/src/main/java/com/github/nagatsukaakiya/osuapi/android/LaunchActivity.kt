@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.activityCt
+import com.github.nagatsukaakiya.osuapi.clientId
+import com.github.nagatsukaakiya.osuapi.clientSecret
+import com.github.nagatsukaakiya.osuapi.redirectUrlFormatted
 import org.koin.android.ext.android.inject
 
 class LaunchActivity : ComponentActivity() {
@@ -33,7 +36,8 @@ class LaunchActivity : ComponentActivity() {
                                     Intent(this@LaunchActivity, MainActivity::class.java)
                                 )
                             } else {
-                                tokenProvider.authorise()
+                                tokenProvider.setCredentials(clientId, clientSecret)
+                                tokenProvider.authorise(redirectUrlFormatted)
                             }
                             "Success"
                         } catch (e: Exception) {
