@@ -12,10 +12,15 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "CLIENT_ID", "\"${System.getenv("CLIENT_ID")}\"")
+        buildConfigField("String", "CLIENT_SECRET", "\"${System.getenv("CLIENT_SECRET")}\"")
+        buildConfigField("String", "REDIRECT_URL", "\"${System.getenv("REDIRECT_URL")}\"")
     }
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.7"
