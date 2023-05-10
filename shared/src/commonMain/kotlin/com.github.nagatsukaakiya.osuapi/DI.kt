@@ -16,6 +16,8 @@ import com.github.nagatsukaakiya.osuapi.chats.remote.ChatApi
 import com.github.nagatsukaakiya.osuapi.chats.remote.ChatRemoteDataProvider
 import com.github.nagatsukaakiya.osuapi.chats.remote.ChatRemoteDataProviderImpl
 import com.github.nagatsukaakiya.osuapi.chats.remote.FakeChatImpl
+import com.github.nagatsukaakiya.osuapi.home.HomeApi
+import com.github.nagatsukaakiya.osuapi.home.HomeApiImpl
 import com.github.nagatsukaakiya.osuapi.users.UsersApi
 import com.github.nagatsukaakiya.osuapi.users.UsersApiImpl
 import com.github.nagatsukaakiya.osuapi.wiki.WikiApi
@@ -33,6 +35,7 @@ val platformModule = module {
     single<UsersApi> { UsersApiImpl(get()) }
     single<NewsApi> { NewsApiImpl(get()) }
     single<WikiApi> { WikiApiImpl(get()) }
+    single<HomeApi> { HomeApiImpl(get()) }
     single<ChatApi> { FakeChatImpl() }
     single<ChatRemoteDataProvider> { ChatRemoteDataProviderImpl(get(), get()) }
     single<ChatRepository> { ChatRepositoryImpl(get()) }
