@@ -10,15 +10,14 @@ import com.github.nagatsukaakiya.osuapi.news.NewsApi
 import com.github.nagatsukaakiya.osuapi.news.NewsApiImpl
 import com.github.nagatsukaakiya.osuapi.ranking.RankingApi
 import com.github.nagatsukaakiya.osuapi.ranking.RankingApiImpl
-import com.github.nagatsukaakiya.osuapi.repository.ChatRepository
-import com.github.nagatsukaakiya.osuapi.repository.ChatRepositoryImpl
-import com.github.nagatsukaakiya.osuapi.repository.remote.ChatApi
-import com.github.nagatsukaakiya.osuapi.repository.remote.ChatRemoteDataProvider
-import com.github.nagatsukaakiya.osuapi.repository.remote.ChatRemoteDataProviderImpl
-import com.github.nagatsukaakiya.osuapi.repository.remote.FakeChatImpl
+import com.github.nagatsukaakiya.osuapi.chats.ChatRepository
+import com.github.nagatsukaakiya.osuapi.chats.ChatRepositoryImpl
+import com.github.nagatsukaakiya.osuapi.chats.remote.ChatApi
+import com.github.nagatsukaakiya.osuapi.chats.remote.ChatRemoteDataProvider
+import com.github.nagatsukaakiya.osuapi.chats.remote.ChatRemoteDataProviderImpl
+import com.github.nagatsukaakiya.osuapi.chats.remote.FakeChatImpl
 import com.github.nagatsukaakiya.osuapi.users.UsersApi
 import com.github.nagatsukaakiya.osuapi.users.UsersApiImpl
-import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 fun appModule() = listOf(platformModule)

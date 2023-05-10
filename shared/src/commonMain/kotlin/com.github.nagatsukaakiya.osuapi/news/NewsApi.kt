@@ -2,8 +2,8 @@ package com.github.nagatsukaakiya.osuapi.news
 
 import com.github.nagatsukaakiya.osuapi.news.requests.NewsListRequest
 import com.github.nagatsukaakiya.osuapi.news.requests.NewsPostRequest
-import com.github.nagatsukaakiya.osuapi.news.responses.NewsListResponse
-import com.github.nagatsukaakiya.osuapi.news.responses.NewsPost
+import com.github.nagatsukaakiya.osuapi.models.NewsListResponse
+import com.github.nagatsukaakiya.osuapi.models.NewsPost
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
