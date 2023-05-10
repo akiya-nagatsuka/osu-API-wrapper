@@ -1,5 +1,8 @@
 package com.github.nagatsukaakiya.osuapi.auth
 
+import platform.UIKit.UIApplication
+import platform.Foundation.NSURL
+
 actual fun webAuthenticate(url: String) {
-    TODO("Not yet implemented")
+    UIApplication.sharedApplication.openURL(NSURL(string = url))
 }
