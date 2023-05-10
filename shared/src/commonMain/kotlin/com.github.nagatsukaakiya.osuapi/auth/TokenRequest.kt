@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class TokenRequest(
     @SerialName("client_id")
-    val clientId: String = com.github.nagatsukaakiya.osuapi.clientId,
+    val clientId: String = "",
     @SerialName("client_secret")
-    val clientSecret: String = com.github.nagatsukaakiya.osuapi.clientSecret,
+    val clientSecret: String = "",
     @SerialName("grant_type")
     val grantType: GrantType = GrantType.AuthorizationCode,
     @SerialName("code")
