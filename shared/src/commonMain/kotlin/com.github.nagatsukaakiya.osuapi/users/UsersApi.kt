@@ -4,9 +4,9 @@ import com.github.nagatsukaakiya.osuapi.auth.Token
 import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
 import com.github.nagatsukaakiya.osuapi.users.requests.KudosuRequest
 import com.github.nagatsukaakiya.osuapi.users.requests.UserScoreRequest
-import com.github.nagatsukaakiya.osuapi.users.responses.KudosuHistory
-import com.github.nagatsukaakiya.osuapi.users.responses.Score
-import com.github.nagatsukaakiya.osuapi.users.responses.User
+import com.github.nagatsukaakiya.osuapi.models.KudosuHistory
+import com.github.nagatsukaakiya.osuapi.models.Score
+import com.github.nagatsukaakiya.osuapi.models.User
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
@@ -14,7 +14,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpHeaders
-import kotlin.jvm.JvmOverloads
 
 interface UsersApi {
     suspend fun getOwnData(token: Token, mode: GameMode? = null): User

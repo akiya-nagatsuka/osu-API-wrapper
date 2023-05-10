@@ -4,9 +4,9 @@ import com.github.nagatsukaakiya.osuapi.auth.Token
 import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
 import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingType
 import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingsRequest
-import com.github.nagatsukaakiya.osuapi.ranking.response.Rankings
-import com.github.nagatsukaakiya.osuapi.ranking.response.Spotlight
-import com.github.nagatsukaakiya.osuapi.ranking.response.Spotlights
+import com.github.nagatsukaakiya.osuapi.models.Rankings
+import com.github.nagatsukaakiya.osuapi.models.Spotlight
+import com.github.nagatsukaakiya.osuapi.models.Spotlights
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
