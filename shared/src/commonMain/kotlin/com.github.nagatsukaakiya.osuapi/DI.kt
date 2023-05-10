@@ -5,6 +5,8 @@ import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.TokenProviderImpl
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsImpl
+import com.github.nagatsukaakiya.osuapi.beatmapsetdiscussions.BeatmapsetDiscussionsApi
+import com.github.nagatsukaakiya.osuapi.beatmapsetdiscussions.BeatmapsetDiscussionsApiImpl
 import com.github.nagatsukaakiya.osuapi.changelog.ChangelogApi
 import com.github.nagatsukaakiya.osuapi.changelog.ChangelogApiImpl
 import com.github.nagatsukaakiya.osuapi.foundation.createHttpClient
@@ -33,6 +35,7 @@ val platformModule = module {
     single { TokenLocalProvider() }
     single<TokenProvider> { TokenProviderImpl(get()) }
     single<BeatmapsApi> { BeatmapsImpl(get()) }
+    single<BeatmapsetDiscussionsApi> { BeatmapsetDiscussionsApiImpl(get()) }
     single<RankingApi> { RankingApiImpl(get()) }
     single<UsersApi> { UsersApiImpl(get()) }
     single<NewsApi> { NewsApiImpl(get()) }
