@@ -13,14 +13,10 @@ extension ContentView {
     class ViewModel: ObservableObject {
         @Published var text = "Loading..."
         init() {
-            Greeting().greeting { greeting, error in
-                DispatchQueue.main.async {
-                    if let greeting = greeting {
-                        self.text = greeting
-                    } else {
-                        self.text = error?.localizedDescription ?? "error"
-                    }
-                }
+            if (DIKt.tokenProvider.isAuthenticated) {
+                self.text = "Authenticated"
+            } else {
+                DIKt.tokenProvider.authorise(isForce: false, completionHandler: { _ in })
             }
         }
     }

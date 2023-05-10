@@ -16,6 +16,9 @@ import com.github.nagatsukaakiya.osuapi.repository.remote.ChatApi
 import com.github.nagatsukaakiya.osuapi.repository.remote.ChatRemoteDataProvider
 import com.github.nagatsukaakiya.osuapi.repository.remote.ChatRemoteDataProviderImpl
 import com.github.nagatsukaakiya.osuapi.repository.remote.FakeChatImpl
+import com.github.nagatsukaakiya.osuapi.users.UsersApi
+import com.github.nagatsukaakiya.osuapi.users.UsersApiImpl
+import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 fun appModule() = listOf(platformModule)
@@ -26,6 +29,7 @@ val platformModule = module {
     single<TokenProvider> { TokenProviderImpl(get()) }
     single<BeatmapsApi> { BeatmapsImpl(get()) }
     single<RankingApi> { RankingApiImpl(get()) }
+    single<UsersApi> { UsersApiImpl(get()) }
     single<NewsApi> { NewsApiImpl(get()) }
     single<ChatApi> { FakeChatImpl() }
     single<ChatRemoteDataProvider> { ChatRemoteDataProviderImpl(get(), get()) }
