@@ -18,6 +18,8 @@ import com.github.nagatsukaakiya.osuapi.chats.remote.ChatRemoteDataProviderImpl
 import com.github.nagatsukaakiya.osuapi.chats.remote.FakeChatImpl
 import com.github.nagatsukaakiya.osuapi.users.UsersApi
 import com.github.nagatsukaakiya.osuapi.users.UsersApiImpl
+import com.github.nagatsukaakiya.osuapi.wiki.WikiApi
+import com.github.nagatsukaakiya.osuapi.wiki.WikiApiImpl
 import org.koin.dsl.module
 
 fun appModule() = listOf(platformModule)
@@ -30,6 +32,7 @@ val platformModule = module {
     single<RankingApi> { RankingApiImpl(get()) }
     single<UsersApi> { UsersApiImpl(get()) }
     single<NewsApi> { NewsApiImpl(get()) }
+    single<WikiApi> { WikiApiImpl(get()) }
     single<ChatApi> { FakeChatImpl() }
     single<ChatRemoteDataProvider> { ChatRemoteDataProviderImpl(get(), get()) }
     single<ChatRepository> { ChatRepositoryImpl(get()) }
