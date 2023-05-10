@@ -1,6 +1,5 @@
 package com.github.nagatsukaakiya.osuapi.auth
 
-import com.github.nagatsukaakiya.osuapi.redirectUrl
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -11,7 +10,7 @@ import io.ktor.serialization.kotlinx.json.*
 
 interface TokenProvider {
     val isAuthenticated: Boolean
-    fun setCredentials(clientId: String, clientSecret: String)
+    fun setCredentials(clientId: String, clientSecret: String, redirectUrl: String)
     suspend fun authorise(
         redirectUri: String,
         scope: List<String> = emptyList(),
@@ -36,13 +35,15 @@ internal class TokenProviderImpl(private val localProvider: TokenLocalProvider) 
 
     private var clientId: String = ""
     private var clientSecret: String = ""
+    private var redirectUrl: String = ""
 
     override val isAuthenticated: Boolean
         get() = localProvider.getRefreshToken() != null
 
-    override fun setCredentials(clientId: String, clientSecret: String) {
+    override fun setCredentials(clientId: String, clientSecret: String, redirectUrl: String) {
         this.clientId = clientId
         this.clientSecret = clientSecret
+        this.redirectUrl = redirectUrl
     }
 
     override suspend fun authorise(
@@ -67,8 +68,9 @@ internal class TokenProviderImpl(private val localProvider: TokenLocalProvider) 
     override suspend fun getTokenByRefresh(tokenScope: TokenScope?) = getToken(GrantType.RefreshToken, null, tokenScope)
 
     private suspend fun getToken(type: GrantType, code: String? = null, tokenScope: TokenScope? = null): String {
-        check(clientId.isNotBlank()) { "Call setCredentials to provide clientId" }
-        check(clientSecret.isNotBlank()) { "Call setCredentials to provide clientSecret" }
+        check(clientId.isNotBlank() && clientSecret.isNotBlank() && redirectUrl.isNotBlank()) {
+            "Call setCredentials to provide client Id, Secret and redirect URL"
+        }
 
         check(type != GrantType.AuthorizationCode || !code.isNullOrEmpty()) { "No code" }
         check(type != GrantType.RefreshToken || code == null) { "Requesting by refresh token and code" }
