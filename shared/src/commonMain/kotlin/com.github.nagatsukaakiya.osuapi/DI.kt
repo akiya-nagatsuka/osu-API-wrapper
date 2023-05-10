@@ -5,6 +5,8 @@ import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
 import com.github.nagatsukaakiya.osuapi.auth.TokenProviderImpl
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsImpl
+import com.github.nagatsukaakiya.osuapi.changelog.ChangelogApi
+import com.github.nagatsukaakiya.osuapi.changelog.ChangelogApiImpl
 import com.github.nagatsukaakiya.osuapi.foundation.createHttpClient
 import com.github.nagatsukaakiya.osuapi.news.NewsApi
 import com.github.nagatsukaakiya.osuapi.news.NewsApiImpl
@@ -35,6 +37,7 @@ val platformModule = module {
     single<UsersApi> { UsersApiImpl(get()) }
     single<NewsApi> { NewsApiImpl(get()) }
     single<WikiApi> { WikiApiImpl(get()) }
+    single<ChangelogApi> { ChangelogApiImpl(get()) }
     single<HomeApi> { HomeApiImpl(get()) }
     single<ChatApi> { FakeChatImpl() }
     single<ChatRemoteDataProvider> { ChatRemoteDataProviderImpl(get(), get()) }
