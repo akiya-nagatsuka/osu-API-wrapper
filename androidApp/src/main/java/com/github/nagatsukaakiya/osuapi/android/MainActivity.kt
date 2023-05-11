@@ -14,6 +14,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
+import com.github.nagatsukaakiya.osuapi.auth.TokenScope
+import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
+import com.github.nagatsukaakiya.osuapi.news.NewsApi
+import com.github.nagatsukaakiya.osuapi.ranking.RankingApi
+import com.github.nagatsukaakiya.osuapi.models.GameMode
+import com.github.nagatsukaakiya.osuapi.models.RankingType
+import kotlinx.coroutines.launch
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart

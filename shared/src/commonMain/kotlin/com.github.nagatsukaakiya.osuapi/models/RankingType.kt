@@ -1,4 +1,4 @@
-package com.github.nagatsukaakiya.osuapi.ranking.requests
+package com.github.nagatsukaakiya.osuapi.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,5 +17,5 @@ enum class RankingType {
     @SerialName("score")
     Score;
 
-    fun getValue(): String = Json.decodeFromJsonElement(Json.encodeToJsonElement(this))
+    internal fun getValue(): String = Json.decodeFromJsonElement(Json.encodeToJsonElement(this))
 }

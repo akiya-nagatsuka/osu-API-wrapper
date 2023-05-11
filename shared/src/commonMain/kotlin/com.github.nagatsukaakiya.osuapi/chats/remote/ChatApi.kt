@@ -1,7 +1,6 @@
 package com.github.nagatsukaakiya.osuapi.chats.remote
 
-import com.github.nagatsukaakiya.osuapi.chats.remote.dto.NewChatRequest
-import com.github.nagatsukaakiya.osuapi.chats.remote.dto.NewChatResponse
+import com.github.nagatsukaakiya.osuapi.models.NewChatResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
@@ -10,11 +9,13 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 interface ChatApi {
     suspend fun newChat(token: String, userId: Int, message: String): NewChatResponse
+
 
     suspend fun getMessages(token: String): List<String>
 }
@@ -50,6 +51,18 @@ internal class FakeChatImpl : ChatApi {
         }.body()
 
     override suspend fun getMessages(token: String) = listOf("Hi!")
+
+    @Serializable
+    private data class NewChatRequest(
+        @SerialName("target_id")
+        val targetId: Int,
+        @SerialName("message")
+        val message: String,
+        @SerialName("is_action")
+        val isAction: Boolean = false,
+        @SerialName("uuid")
+        val uuid: String? = null
+    )
 }
 
 @Serializable

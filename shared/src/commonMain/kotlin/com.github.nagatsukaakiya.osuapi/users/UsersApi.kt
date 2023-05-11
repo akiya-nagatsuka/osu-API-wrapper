@@ -4,25 +4,30 @@ import com.github.nagatsukaakiya.osuapi.auth.Token
 import com.github.nagatsukaakiya.osuapi.models.BeatmapPlaycount
 import com.github.nagatsukaakiya.osuapi.models.Beatmapset
 import com.github.nagatsukaakiya.osuapi.models.Event
-import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
-import com.github.nagatsukaakiya.osuapi.users.requests.KudosuRequest
-import com.github.nagatsukaakiya.osuapi.users.requests.UserScoreRequest
+import com.github.nagatsukaakiya.osuapi.models.GameMode
 import com.github.nagatsukaakiya.osuapi.models.KudosuHistory
 import com.github.nagatsukaakiya.osuapi.models.Score
 import com.github.nagatsukaakiya.osuapi.models.User
+import com.github.nagatsukaakiya.osuapi.models.UserBeatmapsResponse
 import com.github.nagatsukaakiya.osuapi.models.UserCompact
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
-import io.ktor.client.request.setBody
+import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
+import io.ktor.http.appendPathSegments
 
 interface UsersApi {
     suspend fun getOwnData(token: Token, mode: GameMode? = null): User
 
-    suspend fun getKudosu(token: Token, user: Int, limit: Int? = null, offset: String? = null): KudosuHistory
+    suspend fun getKudosu(
+        token: Token,
+        user: Int,
+        limit: Int? = null,
+        offset: String? = null,
+    ): KudosuHistory
 
     suspend fun getUserScores(
         token: Token,
@@ -52,7 +57,7 @@ interface UsersApi {
 
     suspend fun getUser(token: Token, user: Int, mode: GameMode? = null, key: String? = null): User
 
-    suspend fun getUsers(token: Token, ids: List<Int>? = null): List<UserCompact>
+    suspend fun getUsers(token: Token, ids: List<String>? = null): List<UserCompact>
 }
 
 internal class UsersApiImpl(private val client: HttpClient): UsersApi {
@@ -62,7 +67,10 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
     }
 
     override suspend fun getOwnData(token: Token, mode: GameMode?): User {
-        return client.get(if (mode == null) me else "$me/${mode.getValue()}") {
+        return client.get(me) {
+            if (mode != null) {
+                url { appendPathSegments(mode.getValue()) }
+            }
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
@@ -71,14 +79,20 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
         }.body()
     }
 
-    override suspend fun getKudosu(token: Token, user: Int, limit: Int?, offset: String?): KudosuHistory {
+    override suspend fun getKudosu(
+        token: Token,
+        user: Int,
+        limit: Int?,
+        offset: String?
+    ): KudosuHistory {
         return client.get("$users/$user/kudosu") {
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            setBody(KudosuRequest(limit, offset))
+            parameter("limit", limit)
+            parameter("offset", offset)
         }.body()
     }
 
@@ -97,10 +111,10 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            url {
-                parameters.append("limit", limit.toString())
-                parameters.append("offset", offset.toString())
-            }
+            parameter("include_fails", includeFails)
+            parameter("mode", mode)
+            parameter("limit", limit)
+            parameter("offset", offset)
         }.body()
     }
 
@@ -117,8 +131,8 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            // TODO Add Body
-//            setBody(UserScoreRequest(limit, offset))
+            parameter("limit", limit)
+            parameter("offset", offset)
         }.run {
             if (type == "most_played") {
                 UserBeatmapsResponse(body<List<BeatmapPlaycount>>())
@@ -140,30 +154,36 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            // TODO Add Body
-//            setBody(UserScoreRequest(limit, offset))
+            parameter("limit", limit)
+            parameter("offset", offset)
         }.body<List<Event>>()
     }
 
-    override suspend fun getUser(token: Token, user: Int, mode: GameMode?, key: String?): User {
-        return client.get(if (mode == null) "$users/$user" else "$users/$user/${mode.getValue()}") {
+    override suspend fun getUser(
+        token: Token,
+        user: Int,
+        mode: GameMode?,
+        key: String?
+    ): User {
+        return client.get("$users/$user") {
+            if (mode != null) url { appendPathSegments(mode.getValue()) }
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            // TODO Set Body
+            parameter("key", key)
         }.body()
     }
 
-    override suspend fun getUsers(token: Token, ids: List<Int>?): List<UserCompact> {
+    override suspend fun getUsers(token: Token, ids: List<String>?): List<UserCompact> {
         return client.get(users) {
             headers {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            // TODO Set Body
+            parameter("ids", ids)
         }.body()
     }
 }

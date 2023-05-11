@@ -1,7 +1,7 @@
 package com.github.nagatsukaakiya.osuapi.chats.remote
 
 import com.github.nagatsukaakiya.osuapi.auth.TokenProvider
-import com.github.nagatsukaakiya.osuapi.chats.remote.dto.NewChatResponse
+import com.github.nagatsukaakiya.osuapi.models.NewChatResponse
 
 interface ChatRemoteDataProvider {
     suspend fun newChat(userId: Int, message: String): NewChatResponse
