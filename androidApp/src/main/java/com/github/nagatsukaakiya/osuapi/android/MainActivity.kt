@@ -13,8 +13,8 @@ import com.github.nagatsukaakiya.osuapi.auth.TokenScope
 import com.github.nagatsukaakiya.osuapi.beatmaps.BeatmapsApi
 import com.github.nagatsukaakiya.osuapi.news.NewsApi
 import com.github.nagatsukaakiya.osuapi.ranking.RankingApi
-import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
-import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingType
+import com.github.nagatsukaakiya.osuapi.models.GameMode
+import com.github.nagatsukaakiya.osuapi.models.RankingType
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 

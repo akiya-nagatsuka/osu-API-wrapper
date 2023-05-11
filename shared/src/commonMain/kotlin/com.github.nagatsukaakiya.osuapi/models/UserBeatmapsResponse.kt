@@ -1,4 +1,4 @@
-package com.github.nagatsukaakiya.osuapi.users
+package com.github.nagatsukaakiya.osuapi.models
 
 import com.github.nagatsukaakiya.osuapi.models.BeatmapPlaycount
 import com.github.nagatsukaakiya.osuapi.models.Beatmapset
