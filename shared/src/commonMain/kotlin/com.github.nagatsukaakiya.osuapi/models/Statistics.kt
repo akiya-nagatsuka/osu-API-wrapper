@@ -7,15 +7,15 @@ import kotlinx.serialization.json.JsonElement
 @Serializable
 data class Statistics(
     @SerialName("count_50")
-    val count50: JsonElement,
+    val count50: Int,
     @SerialName("count_100")
-    val count100: JsonElement,
+    val count100: Int,
     @SerialName("count_300")
-    val count300: JsonElement,
+    val count300: Int,
     @SerialName("count_geki")
-    val countGeki: JsonElement,
+    val countGeki: Int,
     @SerialName("count_katu")
-    val countKatu: JsonElement,
+    val countKatu: Int,
     @SerialName("count_miss")
-    val countMiss: JsonElement,
+    val countMiss: Int,
 )

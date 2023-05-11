@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserScoreRequest(
-    @SerialName("include_fails")
-    val includeFails: Int?,
-    val mode: GameMode?,
-    val limit: Int?,
-    val offset: String?
+//    @SerialName("include_fails")
+//    val includeFails: Int?,
+//    val mode: GameMode?,
+//    val limit: Int?,
+    val offset: Int?
 )

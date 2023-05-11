@@ -47,9 +47,6 @@ internal class BeatmapsImpl(private val client: HttpClient) : BeatmapsApi {
                 bearerAuth(token.value)
             }
             setBody(Lookup(checksum, filename, id))
-        }.also {
-            println(it.status)
-            println(it.body() as String)
         }.body<String>()
     }
 

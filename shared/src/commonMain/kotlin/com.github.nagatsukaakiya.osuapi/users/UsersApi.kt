@@ -32,7 +32,7 @@ interface UsersApi {
         includeFails: Int? = null,
         mode: GameMode? = null,
         limit: Int? = null,
-        offset: String? = null,
+        offset: Int? = null,
     ): List<Score>
 
     suspend fun getUserBeatmaps(
@@ -89,7 +89,7 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
         includeFails: Int?,
         mode: GameMode?,
         limit: Int?,
-        offset: String?
+        offset: Int?
     ): List<Score> {
         return client.get("$users/$user/scores/$type") {
             headers {
@@ -97,7 +97,10 @@ internal class UsersApiImpl(private val client: HttpClient): UsersApi {
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            setBody(UserScoreRequest(includeFails, mode, limit, offset))
+            url {
+                parameters.append("limit", limit.toString())
+                parameters.append("offset", offset.toString())
+            }
         }.body()
     }
 

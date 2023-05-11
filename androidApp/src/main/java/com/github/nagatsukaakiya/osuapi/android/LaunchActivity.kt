@@ -34,7 +34,7 @@ class LaunchActivity : ComponentActivity() {
                                 )
                             } else {
                                 tokenProvider.setCredentials(clientId, clientSecret, redirectUrl)
-                                tokenProvider.authorise(redirectUrlFormatted)
+                                tokenProvider.authorise(redirectUrlFormatted, scope = listOf("public", "identify"))
                             }
                             "Success"
                         } catch (e: Exception) {

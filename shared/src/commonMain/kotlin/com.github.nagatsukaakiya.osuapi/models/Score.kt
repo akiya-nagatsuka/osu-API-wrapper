@@ -1,30 +1,31 @@
 package com.github.nagatsukaakiya.osuapi.models
 
+import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class Score(
-    val id: JsonElement,
+    val id: Long,
     @SerialName("best_id")
-    val bestId: JsonElement,
+    val bestId: Long,
     @SerialName("user_id")
-    val userId: JsonElement,
-    val accuracy: JsonElement,
-    val mods: JsonElement,
-    val score: JsonElement,
+    val userId: Int,
+    val accuracy: Float,
+    val mods: List<JsonElement>,
+    val score: Int,
     @SerialName("max_combo")
-    val maxCombo: JsonElement,
-    val perfect: JsonElement,
+    val maxCombo: Int,
+    val perfect: Boolean,
     val statistics: Statistics,
     val passed: Boolean,
-    val pp: JsonElement,
-    val rank: JsonElement,
+    val pp: Float,
+    val rank: String,
     @SerialName("created_at")
-    val createdAt: JsonElement,
-    val mode: JsonElement,
+    val createdAt: String,
+    val mode: GameMode,
     @SerialName("mode_int")
-    val modeInt: JsonElement,
-    val replay: JsonElement,
+    val modeInt: Int,
+    val replay: Boolean,
 )

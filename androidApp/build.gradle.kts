@@ -61,4 +61,5 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
     implementation("io.insert-koin:koin-android:3.4.0")
     implementation("io.insert-koin:koin-androidx-compose:3.4.0")
+    implementation("com.patrykandpatrick.vico:compose:1.6.5")
 }

@@ -46,7 +46,7 @@ data class User(
     val countryCode: String,
     @SerialName("default_group")
     val defaultGroup: String,
-    val id: String,
+    val id: Int,
     @SerialName("is_active")
     val isActive: Boolean,
     @SerialName("is_bot")
