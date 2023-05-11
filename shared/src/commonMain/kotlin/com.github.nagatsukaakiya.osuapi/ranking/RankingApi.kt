@@ -1,9 +1,8 @@
 package com.github.nagatsukaakiya.osuapi.ranking
 
 import com.github.nagatsukaakiya.osuapi.auth.Token
-import com.github.nagatsukaakiya.osuapi.ranking.requests.GameMode
-import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingType
-import com.github.nagatsukaakiya.osuapi.ranking.requests.RankingsRequest
+import com.github.nagatsukaakiya.osuapi.models.GameMode
+import com.github.nagatsukaakiya.osuapi.models.RankingType
 import com.github.nagatsukaakiya.osuapi.models.Rankings
 import com.github.nagatsukaakiya.osuapi.models.Spotlight
 import com.github.nagatsukaakiya.osuapi.models.Spotlights
@@ -12,7 +11,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
-import io.ktor.client.request.setBody
+import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
 
 interface RankingApi {
@@ -52,7 +51,11 @@ internal class RankingApiImpl(private val client: HttpClient) : RankingApi {
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            setBody(RankingsRequest(country, cursor, filter, spotlight, variant))
+            parameter("country", country)
+            parameter("cursor", cursor)
+            parameter("filter", filter)
+            parameter("spotlight", spotlight)
+            parameter("variant", variant)
         }.body()
     }
 

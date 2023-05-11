@@ -7,6 +7,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
+import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
 
 interface HomeApi {
@@ -30,8 +31,9 @@ internal class HomeApiImpl(private val client: HttpClient): HomeApi {
                 append(HttpHeaders.ContentType, "application/json")
                 bearerAuth(token.value)
             }
-            // TODO Set Body
-//            setBody(NewsListRequest(limit, year, cursorString))
+            parameter("mode", mode)
+            parameter("query", query)
+            parameter("page", page)
         }.body()
     }
 }

@@ -1,7 +1,5 @@
 package com.github.nagatsukaakiya.osuapi.news
 
-import com.github.nagatsukaakiya.osuapi.news.requests.NewsListRequest
-import com.github.nagatsukaakiya.osuapi.news.requests.NewsPostRequest
 import com.github.nagatsukaakiya.osuapi.models.NewsListResponse
 import com.github.nagatsukaakiya.osuapi.models.NewsPost
 import io.ktor.client.HttpClient
@@ -10,6 +8,8 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpHeaders
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 interface NewsApi {
     suspend fun newsList(
@@ -42,7 +42,18 @@ internal class NewsApiImpl(private val client: HttpClient) : NewsApi {
                 append(HttpHeaders.Accept, "application/json")
                 append(HttpHeaders.ContentType, "application/json")
             }
-            setBody(NewsPostRequest(news, key))
+            setBody(NewsPostRequest(key))
         }.body()
     }
+
+    @Serializable
+    private data class NewsListRequest(
+        val limit: Int? = null,
+        val year: Int? = null,
+        @SerialName("cursor_string")
+        val cursorString: String? = null,
+    )
+
+    @Serializable
+    private data class NewsPostRequest(val key: String? = null)
 }
